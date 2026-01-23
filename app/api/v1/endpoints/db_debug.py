@@ -10,3 +10,4 @@ router = APIRouter()
 async def ping(db: AsyncSession = Depends(get_db)):
 	await db.execute(text("SELECT 1"))
 	return {"db":"ok"}
+

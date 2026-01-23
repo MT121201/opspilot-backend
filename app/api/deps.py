@@ -1,6 +1,7 @@
 # app/api/deps.py
 from __future__ import annotations
-from typing import AsyncGenerator
+
+from collections.abc import AsyncGenerator
 
 from fastapi import Request
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
@@ -14,6 +15,6 @@ async def get_db(request: Request) -> AsyncGenerator[AsyncSession, None]:
 	- Service layer decides when to commit()
 
 	"""
-	sessionmaker: async_sessionmaker[AsyncSession] = request.app.state.db_sessionmaker
+	sessionmaker: async_sessionmaker[AsyncSession] = request.app.state.db_session_maker
 	async with sessionmaker() as session:
 		yield session

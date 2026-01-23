@@ -4,8 +4,8 @@ from __future__ import annotations
 import json
 import logging
 import sys
-from datetime import datetime, timezone
-from typing import Any, Optional
+from datetime import UTC, datetime
+from typing import Any
 
 
 class JSONFormatter(logging.Formatter):
@@ -16,7 +16,7 @@ class JSONFormatter(logging.Formatter):
 
 	def format(self, record: logging.LogRecord) -> str:
 		payload: dict[str, Any] = {
-			"ts": datetime.now(timezone.utc).isoformat(),
+			"ts": datetime.now(UTC).isoformat(),
 			"level": record.levelname,
 			"logger": record.name,
 			"msg": record.getMessage(),
@@ -44,7 +44,7 @@ class JSONFormatter(logging.Formatter):
 			except TypeError:
 				payload[key] = str(value)
 
-		return json.dumps(payload, ensure_ascii=False)
+		return json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n"
 
 
 def setup_logging(*, log_level: str = "INFO") -> None:
@@ -70,7 +70,7 @@ def setup_logging(*, log_level: str = "INFO") -> None:
 	logging.getLogger("uvicorn.error").setLevel(level)
 
 
-def get_logger(name: Optional[str] = None) -> logging.Logger:
+def get_logger(name: str | None = None) -> logging.Logger:
 	"""
 	Get a logger instance. Use module-level logger like:
 		logger = get_logger(__name__)

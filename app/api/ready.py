@@ -1,7 +1,6 @@
 # app/api/ready.py
 from fastapi import APIRouter, Request, status
 from fastapi.responses import JSONResponse
-
 from sqlalchemy import text
 
 router = APIRouter()
