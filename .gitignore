@@ -22,8 +22,7 @@ env/
 *.swo
 *~
 
-# uv
-uv.lock
+
 
 # Distribution / packaging
 dist/
